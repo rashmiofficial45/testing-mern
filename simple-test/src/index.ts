@@ -1,4 +1,8 @@
 export function sum(a: number, b: number) {
     return a + b
 }
-// so this is how vi works
+
+export function multiply(a:number, b:number){
+    return a * b
+}
+
