@@ -13,55 +13,44 @@ exports.app = void 0;
 | - All routes and middleware will attach to this app instance
 */
 const express_1 = __importDefault(require("express"));
+const zod_1 = __importDefault(require("zod"));
+const sumSchema = zod_1.default.object({
+    a: zod_1.default.number(),
+    b: zod_1.default.number()
+});
 exports.app = (0, express_1.default)();
-/*
-|--------------------------------------------------------------------------
-| Middleware Layer (Important in real projects)
-|--------------------------------------------------------------------------
-| This allows Express to parse JSON request bodies.
-| Without this, req.body will be undefined.
-*/
 exports.app.use(express_1.default.json());
-/*
-|--------------------------------------------------------------------------
-| Health Check Route
-|--------------------------------------------------------------------------
-| Purpose:
-| - Confirms that the server is alive
-| - Used by:
-|   • Load balancers
-|   • Monitoring tools
-|   • DevOps pipelines
-*/
 exports.app.get("/", (req, res) => {
     console.log("the server is up");
     res.send("the server is up and running");
 });
-/*
-|--------------------------------------------------------------------------
-| Business Logic Route: SUM API
-|--------------------------------------------------------------------------
-| Contract:
-| POST /sum
-|
-| Expected Request Body:
-| {
-|   "a": number,
-|   "b": number
-| }
-|
-| Behavior:
-| - Reads numbers from request body
-| - Computes their sum
-| - Returns result in JSON format
-*/
 exports.app.post("/sum", (req, res) => {
-    const a = req.body.a;
-    const b = req.body.b;
-    const result = a + b;
+    const result = sumSchema.safeParse(req.body);
+    if (!result.success) {
+        res.status(411).json({
+            error: "Incorrect inputs"
+        });
+        return;
+    }
+    const a = result.data.a;
+    const b = result.data.b;
+    const answer = a + b;
     res.json({
-        result,
+        answer,
     });
+});
+exports.app.get("/sum", (req, res) => {
+    const parsedResponse = sumSchema.safeParse({
+        a: Number(req.headers["a"]),
+        b: Number(req.headers["b"])
+    });
+    if (!parsedResponse.success) {
+        return res.status(411).json({
+            message: "Incorrect inputs"
+        });
+    }
+    const answer = parsedResponse.data.a + parsedResponse.data.b;
+    res.status(200).json({ answer });
 });
 /*
 |--------------------------------------------------------------------------

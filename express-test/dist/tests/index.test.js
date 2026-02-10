@@ -29,7 +29,46 @@ const globals_1 = require("@jest/globals");
                 b: 2
             });
             (0, globals_1.expect)(response.statusCode).toBe(200);
-            (0, globals_1.expect)(response.body.result).toBe(3);
+            (0, globals_1.expect)(response.body.answer).toBe(3);
+        }));
+        (0, globals_1.it)("should return the sum of two negative numbers", () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield (0, supertest_1.default)(index_1.app).post("/sum").send({
+                a: -1,
+                b: -2
+            });
+            (0, globals_1.expect)(response.statusCode).toBe(200);
+            (0, globals_1.expect)(response.body.answer).toBe(-3);
+        }));
+        (0, globals_1.it)("should return the sum of two zero number", () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield (0, supertest_1.default)(index_1.app).post("/sum").send({
+                a: 0,
+                b: 0
+            });
+            (0, globals_1.expect)(response.statusCode).toBe(200);
+            (0, globals_1.expect)(response.body.answer).toBe(0);
+        }));
+        (0, globals_1.it)("should return 411 if wrong inputs are provided", () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield (0, supertest_1.default)(index_1.app).post("/sum").send({});
+            (0, globals_1.expect)(response.statusCode).toBe(411);
+            (0, globals_1.expect)(response.body.error).toBe("Incorrect inputs");
+        }));
+    });
+    (0, globals_1.describe)('GET /sum', () => {
+        (0, globals_1.it)("should return the sum of two numbers", () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield (0, supertest_1.default)(index_1.app)
+                .get("/sum")
+                .set({
+                a: "1",
+                b: "2"
+            })
+                .send();
+            (0, globals_1.expect)(res.statusCode).toBe(200);
+            (0, globals_1.expect)(res.body.answer).toBe(3);
+        }));
+        (0, globals_1.it)("should return 411 if no inputs are provided", () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield (0, supertest_1.default)(index_1.app).get("/sum").send();
+            (0, globals_1.expect)(response.statusCode).toBe(411);
+            (0, globals_1.expect)(response.body.message).toBe("Incorrect inputs");
         }));
     });
 });

@@ -7,62 +7,55 @@
 | - All routes and middleware will attach to this app instance
 */
 import express from "express";
+import z from "zod"
+
+const sumSchema = z.object({
+  a: z.number(),
+  b: z.number()
+})
 
 export const app = express();
 
-/*
-|--------------------------------------------------------------------------
-| Middleware Layer (Important in real projects)
-|--------------------------------------------------------------------------
-| This allows Express to parse JSON request bodies.
-| Without this, req.body will be undefined.
-*/
 app.use(express.json());
 
-/*
-|--------------------------------------------------------------------------
-| Health Check Route
-|--------------------------------------------------------------------------
-| Purpose:
-| - Confirms that the server is alive
-| - Used by:
-|   • Load balancers
-|   • Monitoring tools
-|   • DevOps pipelines
-*/
 app.get("/", (req, res) => {
   console.log("the server is up");
   res.send("the server is up and running");
 });
 
-/*
-|--------------------------------------------------------------------------
-| Business Logic Route: SUM API
-|--------------------------------------------------------------------------
-| Contract:
-| POST /sum
-|
-| Expected Request Body:
-| {
-|   "a": number,
-|   "b": number
-| }
-|
-| Behavior:
-| - Reads numbers from request body
-| - Computes their sum
-| - Returns result in JSON format
-*/
 app.post("/sum", (req, res) => {
-  const a = req.body.a;
-  const b = req.body.b;
-  const result = a + b;
-
+  const result = sumSchema.safeParse(req.body)
+  if (!result.success){
+    res.status(411).json({
+      error: "Incorrect inputs"
+    })
+    return
+  }
+  const a = result.data.a
+  const b = result.data.b
+  const answer = a + b
   res.json({
-    result,
+    answer,
   });
 });
 
+app.get("/sum", (req, res) => {
+  const parsedResponse = sumSchema.safeParse({
+    a: Number(req.headers["a"]),
+    b: Number(req.headers["b"])
+  })
+
+  if (!parsedResponse.success) {
+    return res.status(411).json({
+      message: "Incorrect inputs"
+    })
+  }
+
+  const answer = parsedResponse.data.a + parsedResponse.data.b;
+
+  res.status(200).json({ answer });
+
+});
 /*
 |--------------------------------------------------------------------------
 | Server Bootstrap Layer
