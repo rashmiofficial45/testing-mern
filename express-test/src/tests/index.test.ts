@@ -20,5 +20,22 @@ describe("testing the server is running or not", () => {
       expect(response.statusCode).toBe(200)
       expect(response.body.result).toBe(3)
     })
+    it("should return the sum of two negative numbers", async () => {
+      const response = await request(app).post("/sum").send({
+        a: -1,
+        b: -2
+      });
+      expect(response.statusCode).toBe(200)
+      expect(response.body.result).toBe(-3);
+    });
+
+    it("should return the sum of two zero number", async () => {
+      const response = await request(app).post("/sum").send({
+        a: 0,
+        b: 0
+      });
+      expect(response.statusCode).toBe(200)
+      expect(response.body.result).toBe(0);
+    });
   })
 })
