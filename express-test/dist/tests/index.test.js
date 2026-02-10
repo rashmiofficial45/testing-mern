@@ -16,8 +16,20 @@ const supertest_1 = __importDefault(require("supertest"));
 const index_1 = require("../index");
 const globals_1 = require("@jest/globals");
 (0, globals_1.describe)("testing the server is running or not", () => {
-    (0, globals_1.it)("should return 200 status and a message", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(index_1.app).get("/");
-        (0, globals_1.expect)(response.statusCode).toBe(200);
-    }));
+    (0, globals_1.describe)("GET /", () => {
+        (0, globals_1.it)("should return 200 status and a message", () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield (0, supertest_1.default)(index_1.app).get("/");
+            (0, globals_1.expect)(response.statusCode).toBe(200);
+        }));
+    });
+    (0, globals_1.describe)("POST /sum", () => {
+        (0, globals_1.it)("test the post endpoint", () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield (0, supertest_1.default)(index_1.app).post("/sum").send({
+                a: 1,
+                b: 2
+            });
+            (0, globals_1.expect)(response.statusCode).toBe(200);
+            (0, globals_1.expect)(response.body.result).toBe(3);
+        }));
+    });
 });
