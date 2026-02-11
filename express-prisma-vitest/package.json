@@ -12,11 +12,14 @@
   "packageManager": "pnpm@10.28.0",
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/pg": "^8.16.0",
     "express": "^5.2.1",
     "prisma": "^7.4.0"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
+    "pg": "^8.18.0",
     "zod": "^4.3.6"
   }
 }
