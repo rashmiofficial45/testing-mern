@@ -13,7 +13,7 @@ importers:
         version: 7.4.0
       '@prisma/client':
         specifier: ^7.4.0
-        version: 7.4.0(prisma@7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        version: 7.4.0(prisma@7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)
       '@types/supertest':
         specifier: ^6.0.3
         version: 6.0.3
@@ -41,7 +41,10 @@ importers:
         version: 5.2.1
       prisma:
         specifier: ^7.4.0
-        version: 7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+      vitest-mock-extended:
+        specifier: ^3.1.0
+        version: 3.1.0(typescript@5.9.3)(vitest@4.0.18(@types/node@25.2.3)(jiti@2.6.1))
 
 packages:
 
@@ -1206,9 +1209,22 @@ packages:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
 
+  ts-essentials@10.1.1:
+    resolution: {integrity: sha512-4aTB7KLHKmUvkjNj8V+EdnmuVTiECzn3K+zIbRthumvHu+j44x3w63xpfs0JL3NGIzGXqoQ7AV591xHO+XrOTw==}
+    peerDependencies:
+      typescript: '>=4.5.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   type-is@2.0.1:
     resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
     engines: {node: '>= 0.6'}
+
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
@@ -1268,6 +1284,12 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  vitest-mock-extended@3.1.0:
+    resolution: {integrity: sha512-vCM0VkuocOUBwwqwV7JB7YStw07pqeKvEIrZnR8l3PtwYi6rAAJAyJACeC1UYNfbQWi85nz7EdiXWBFI5hll2g==}
+    peerDependencies:
+      typescript: 3.x || 4.x || 5.x
+      vitest: '>=3.0.0'
 
   vitest@4.0.18:
     resolution: {integrity: sha512-hOQuK7h0FGKgBAas7v0mSAsnvrIgAvWmRFjmzpJ7SwFHH3g1k2u37JtYwOwmEKhK6ZO3v9ggDBBm0La1LCK4uQ==}
@@ -1458,11 +1480,12 @@ snapshots:
 
   '@prisma/client-runtime-utils@7.4.0': {}
 
-  '@prisma/client@7.4.0(prisma@7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@prisma/client@7.4.0(prisma@7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@prisma/client-runtime-utils': 7.4.0
     optionalDependencies:
-      prisma: 7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      prisma: 7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+      typescript: 5.9.3
 
   '@prisma/config@7.4.0':
     dependencies:
@@ -1477,7 +1500,7 @@ snapshots:
 
   '@prisma/debug@7.4.0': {}
 
-  '@prisma/dev@0.20.0':
+  '@prisma/dev@0.20.0(typescript@5.9.3)':
     dependencies:
       '@electric-sql/pglite': 0.3.15
       '@electric-sql/pglite-socket': 0.0.20(@electric-sql/pglite@0.3.15)
@@ -1494,7 +1517,7 @@ snapshots:
       proper-lockfile: 4.1.2
       remeda: 2.33.4
       std-env: 3.10.0
-      valibot: 1.2.0
+      valibot: 1.2.0(typescript@5.9.3)
       zeptomatch: 2.1.0
     transitivePeerDependencies:
       - typescript
@@ -2241,14 +2264,16 @@ snapshots:
 
   postgres@3.4.7: {}
 
-  prisma@7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  prisma@7.4.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3):
     dependencies:
       '@prisma/config': 7.4.0
-      '@prisma/dev': 0.20.0
+      '@prisma/dev': 0.20.0(typescript@5.9.3)
       '@prisma/engines': 7.4.0
       '@prisma/studio-core': 0.13.1(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       mysql2: 3.15.3
       postgres: 3.4.7
+    optionalDependencies:
+      typescript: 5.9.3
     transitivePeerDependencies:
       - '@types/react'
       - magicast
@@ -2462,17 +2487,25 @@ snapshots:
 
   toidentifier@1.0.1: {}
 
+  ts-essentials@10.1.1(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
+
   type-is@2.0.1:
     dependencies:
       content-type: 1.0.5
       media-typer: 1.1.0
       mime-types: 3.0.2
 
+  typescript@5.9.3: {}
+
   undici-types@7.16.0: {}
 
   unpipe@1.0.0: {}
 
-  valibot@1.2.0: {}
+  valibot@1.2.0(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
 
   vary@1.1.2: {}
 
@@ -2488,6 +2521,12 @@ snapshots:
       '@types/node': 25.2.3
       fsevents: 2.3.3
       jiti: 2.6.1
+
+  vitest-mock-extended@3.1.0(typescript@5.9.3)(vitest@4.0.18(@types/node@25.2.3)(jiti@2.6.1)):
+    dependencies:
+      ts-essentials: 10.1.1(typescript@5.9.3)
+      typescript: 5.9.3
+      vitest: 4.0.18(@types/node@25.2.3)(jiti@2.6.1)
 
   vitest@4.0.18(@types/node@25.2.3)(jiti@2.6.1):
     dependencies:

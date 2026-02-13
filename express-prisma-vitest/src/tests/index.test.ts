@@ -4,15 +4,16 @@ import { describe, expect, it, vi } from "vitest";
  * ─────────────────────────────────────────────
  *  OPTIONAL: Mock Prisma (recommended for unit tests)
  * ─────────────────────────────────────────────
- * Uncomment this if you do NOT want to hit the real database.
+ * Now it is working perfectly.
  */
-vi.mock("../db", () => ({
-  prismaClient: {
-    sum: {
-      create: vi.fn()
-    }
-  }
-}));
+// vi.mock("../db", () => ({
+//   prismaClient: {
+//     sum: {
+//       create: vi.fn()
+//     }
+//   }
+// }));
+vi.mock("../db")
 
 import request from "supertest";
 import { app } from "../index";
