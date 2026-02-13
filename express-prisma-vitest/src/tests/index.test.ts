@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-
+import { userfn } from "../utils";
 /**
  * ─────────────────────────────────────────────
  *  OPTIONAL: Mock Prisma (recommended for unit tests)
@@ -13,7 +13,10 @@ import { describe, expect, it, vi } from "vitest";
 //     }
 //   }
 // }));
+
+//mocking the db module deeply (mockDeep)
 vi.mock("../db")
+vi.mock("../utils") //IMP: this line activates the mock. commenting this line will deactivate the mock even if the the mock file exists...
 
 import request from "supertest";
 import { app } from "../index";
@@ -24,7 +27,7 @@ describe("POST /sum", () => {
       const res = await request(app)
         .post("/sum")
         .send({ a: 1, b: 2 }); // Using 1 and 2 to be explicit
-
+      console.log(userfn())
       expect(res.statusCode).toBe(200);
       expect(res.body.answer).toBe(3);
     });
