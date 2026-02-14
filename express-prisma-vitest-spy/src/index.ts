@@ -18,7 +18,7 @@ app.post("/sum", async(req, res) => {
       message: "Incorrect inputs"
     })
   }
-  
+
   if (parsedResponse.data.a > 1000000000000 || parsedResponse.data.b > 1000000000000) {
     return res.status(422).json({
       message: "Sorry we dont support big numbers"
@@ -30,11 +30,13 @@ app.post("/sum", async(req, res) => {
   const response = await prismaClient.request.create({
     data: {
       a: parsedResponse.data.a,
-      b: parsedResponse.data.b,
+      b: parsedResponse.data.b, //now here even if you alter the parsedResponse.data.a or b it will not affect the response.a and response.b and the test will pass
       result: answer,
       type: "Sum"
     }
   })
+
+  console.log(response)
 
   res.json({
     answer,
