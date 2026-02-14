@@ -18,7 +18,7 @@ app.post("/sum", async(req, res) => {
       message: "Incorrect inputs"
     })
   }
-
+  
   if (parsedResponse.data.a > 1000000000000 || parsedResponse.data.b > 1000000000000) {
     return res.status(422).json({
       message: "Sorry we dont support big numbers"
@@ -27,7 +27,7 @@ app.post("/sum", async(req, res) => {
 
   const answer = parsedResponse.data.a + parsedResponse.data.b;
 
-  await prismaClient.request.create({
+  const response = await prismaClient.request.create({
     data: {
       a: parsedResponse.data.a,
       b: parsedResponse.data.b,
@@ -38,7 +38,7 @@ app.post("/sum", async(req, res) => {
 
   res.json({
     answer,
-    // id: response.id
+    id: response.id
   })
 });
 
